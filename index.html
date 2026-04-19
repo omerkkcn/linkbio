@@ -1,33 +1,389 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
-        <title>Ömer Kökçan</title>
-        <link rel="stylesheet" href="style.css">
-        <meta name="theme-color" content="var(--bgColor)">
-    </head>
-    <body>
-            <!--Sayfa Bigileri-->
-        <img id="userPhoto" class="animated rubberBand fast" src="omerkkcn_logo.webp" alt="Your Name's Photo">
-        <h1 class="animated jello">Ömer Kökçan</h1>
-        <a href="https://www.instagram.com/" id="userName" class="animated fadeIn delay-1s fast">Instagram: @omerkkcn</a>
-        <div id="links" class="animated fadeInLeft delay-1s">
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kişisel Portfolyo</title>
 
-            <a class="link" href="https://www.instagram.com/omerkkcn" target="_blank">instagram</a>
+  <!-- Google Fonts: DM Sans (body) + DM Serif Display (accent headings) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 
-            <a class="link" href="https://x.com/omerkkcn" target="_blank">twitter</a>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-            <a class="link" href="https://www.tiktok.com/@omerkkcn" target="_blank">tiktok</a>
+  <script>
+    /* ── Tailwind konfigürasyonu ── */
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+            serif: ['"DM Serif Display"', 'serif'],
+          },
+          colors: {
+            ink:   '#0D0D0D',
+            muted: '#6B6B6B',
+            line:  '#E8E8E8',
+            /* sosyal medya aksan renkleri */
+            ig:    '#E1306C',
+            li:    '#0A66C2',
+            gh:    '#171515',
+          },
+          animation: {
+            'fade-up':   'fadeUp .6s ease both',
+            'fade-up-2': 'fadeUp .6s .15s ease both',
+            'fade-up-3': 'fadeUp .6s .30s ease both',
+            'fade-up-4': 'fadeUp .6s .45s ease both',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%':   { opacity: '0', transform: 'translateY(22px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
 
-            <a class="link" href="https://www.facebook.com/omerkkcn/" target="_blank">facebook</a>
+  <style>
+    /* ── Global sıfırlama ve arka plan ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #FFFFFF;
+      color: #0D0D0D;
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
 
-             <a class="link" href="https://www.youtube.com/channel/UCVr8zlyVtuLPWd8mSq_SCdg" target="_blank">youtube</a>
+    /* ── İnce ayraç çizgisi ── */
+    .divider {
+      width: 40px; height: 2px;
+      background: #0D0D0D;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
 
+    /* ── Profil fotoğrafı: zarif daire + ince hale ── */
+    .avatar-ring {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #0D0D0D 0%, #888 100%);
+    }
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: #E8E8E8;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      font-size: 2.5rem;
+      color: #888;
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      letter-spacing: -1px;
+    }
+
+    /* ── Sosyal medya butonları ── */
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1.5px solid #E8E8E8;
+      font-size: .875rem; font-weight: 500;
+      letter-spacing: .01em;
+      text-decoration: none;
+      color: #0D0D0D;
+      background: #fff;
+      transition: background .2s, color .2s, border-color .2s, transform .15s;
+    }
+    .social-btn:hover { transform: translateY(-2px); }
+    .social-btn.ig:hover { background: #E1306C; border-color: #E1306C; color: #fff; }
+    .social-btn.li:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; }
+    .social-btn.gh:hover { background: #171515; border-color: #171515; color: #fff; }
+    .social-btn svg { flex-shrink: 0; }
+
+    /* ── Proje kartları ── */
+    .card {
+      background: #fff;
+      border: 1.5px solid #E8E8E8;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.07);
+    }
+
+    /* ── Kart üst görseli (renk bant) ── */
+    .card-visual {
+      width: 100%; height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .card-visual.unity {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+    .card-visual.launcher {
+      background: linear-gradient(135deg, #1c1c1c 0%, #2d2d2d 50%, #404040 100%);
+    }
+
+    /* floating dekoratif parçacıklar */
+    .card-visual .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: .35;
+      filter: blur(28px);
+    }
+    .card-visual .blob-1 { width:110px;height:110px; background:#7c3aed; top:-20px;left:-20px; }
+    .card-visual .blob-2 { width: 80px;height: 80px; background:#2563eb; bottom:-15px;right:10px; }
+    .card-visual .blob-3 { width:100px;height:100px; background:#10b981; top:-10px;right:-20px; }
+    .card-visual .blob-4 { width: 80px;height: 80px; background:#f59e0b; bottom:-15px;left:10px; }
+
+    /* kart ikon container */
+    .card-icon {
+      width: 60px; height: 60px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem;
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      z-index: 1;
+    }
+
+    /* ── Etiket (badge) ── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .03em;
+      border: 1px solid #E8E8E8;
+      color: #6B6B6B;
+      background: #FAFAFA;
+    }
+
+    /* ── Bölüm başlığı soldan çizgi ── */
+    .section-label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: #6B6B6B;
+    }
+    .section-label::before {
+      content: '';
+      display: block; width: 28px; height: 1.5px;
+      background: #6B6B6B; border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- ════════════════════════════════════
+       HERO / PROFIL BÖLÜMÜ
+  ════════════════════════════════════ -->
+  <section class="max-w-2xl mx-auto px-6 pt-20 pb-12 text-center">
+
+    <!-- Profil fotoğrafı -->
+    <div class="animate-fade-up flex justify-center mb-6">
+      <div class="avatar-ring">
+        <div class="avatar-inner">
+          <!-- Fotoğraf eklemek için: <img src="foto.jpg" alt="Profil" class="w-full h-full object-cover" /> -->
+          <!-- Şimdilik harf monogramı gösteriliyor -->
+          A
         </div>
-        
-        <a href="mailto:omerkkcn@gmail.com" class="animated fadeIn delay-2s slow" id="userName">Bana Mail Gönder</a>
-            <!--Github-->
-        <a class="atrib" href="https://github.com/omerkkcn/linkbio">Github</a>
-    </body>
+      </div>
+    </div>
+
+    <!-- İsim -->
+    <h1 class="animate-fade-up-2 font-serif text-4xl md:text-5xl tracking-tight text-ink mb-1">
+      Adınız Soyadınız
+    </h1>
+
+    <!-- Ünvan etiketi -->
+    <p class="animate-fade-up-2 text-muted text-sm font-medium tracking-widest uppercase mb-6">
+      EE Öğrencisi &amp; Oyun Geliştirici
+    </p>
+
+    <!-- İnce ayraç -->
+    <div class="animate-fade-up-3 divider mb-6"></div>
+
+    <!-- Biyografi -->
+    <p class="animate-fade-up-3 text-muted text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-10">
+      Elektrik-Elektronik Mühendisliği öğrencisiyim; gündüzleri devrelerle, geceleri ise oyun motorlarıyla uğraşıyorum.
+      Unity ile mobil deneyimler tasarlıyor, Python ile masaüstü araçlar geliştiriyorum.
+      Mühendislik disiplinini yaratıcı teknoloji projeleriyle buluşturmak benim için sadece bir meslek değil, bir tutku.
+    </p>
+
+    <!-- ── Sosyal Medya Butonları ── -->
+    <div class="animate-fade-up-4 flex flex-wrap justify-center gap-3">
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/kullanici_adi" target="_blank" rel="noopener" class="social-btn ig">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.75-.75a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        Instagram
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://linkedin.com/in/kullanici_adi" target="_blank" rel="noopener" class="social-btn li">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5C.02 2.12 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V24h-4V8.5zm6.5 0h3.84v2.14h.05c.53-1 1.84-2.14 3.78-2.14 4.04 0 4.79 2.66 4.79 6.12V24h-4v-8.61c0-2.05-.04-4.7-2.86-4.7-2.87 0-3.31 2.24-3.31 4.55V24H7V8.5z"/>
+        </svg>
+        LinkedIn
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/kullanici_adi" target="_blank" rel="noopener" class="social-btn gh">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════
+       PROJELER BÖLÜMÜ
+  ════════════════════════════════════ -->
+  <section class="max-w-4xl mx-auto px-6 pb-24">
+
+    <!-- Bölüm başlığı -->
+    <div class="flex items-center gap-4 mb-10">
+      <div class="section-label">Seçili Projeler</div>
+    </div>
+
+    <!-- Kart ızgarası: mobile 1 kolon, md+ 2 kolon -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- ── KART 1: Unity Mobile Game ── -->
+      <div class="card">
+
+        <!-- Görsel alan -->
+        <div class="card-visual unity">
+          <div class="blob blob-1"></div>
+          <div class="blob blob-2"></div>
+          <div class="card-icon">🎮</div>
+        </div>
+
+        <!-- Kart içerik -->
+        <div class="p-6">
+          <!-- Etiketler -->
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="badge">Unity</span>
+            <span class="badge">C#</span>
+            <span class="badge">Mobile</span>
+          </div>
+
+          <!-- Başlık -->
+          <h2 class="font-serif text-2xl text-ink mb-2">Swerve Rush</h2>
+
+          <!-- Açıklama -->
+          <p class="text-muted text-sm leading-relaxed mb-5">
+            Unity ile geliştirilen bu mobil oyunda oyuncu, karakterini sola-sağa kaydırarak
+            engelleri aşıyor ve giderek hızlanan parkurda yüksek skor hedefliyor.
+            Dinamik kamera sistemi ve prosedürel seviye üretimi ile sonsuz oynanabilirlik sunuyor.
+          </p>
+
+          <!-- Özellik listesi -->
+          <ul class="space-y-1 text-sm text-muted mb-5">
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> Swerve (kaydırma) mekaniği
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> Prosedürel engel üretimi
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> Android &amp; iOS uyumlu
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-muted transition-colors">
+            Projeyi İncele
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <!-- ── /KART 1 ── -->
+
+
+      <!-- ── KART 2: Windows Game Launcher ── -->
+      <div class="card">
+
+        <!-- Görsel alan -->
+        <div class="card-visual launcher">
+          <div class="blob blob-3"></div>
+          <div class="blob blob-4"></div>
+          <div class="card-icon">🖥️</div>
+        </div>
+
+        <!-- Kart içerik -->
+        <div class="p-6">
+          <!-- Etiketler -->
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="badge">Python</span>
+            <span class="badge">SQLite</span>
+            <span class="badge">Desktop</span>
+          </div>
+
+          <!-- Başlık -->
+          <h2 class="font-serif text-2xl text-ink mb-2">GameVault Launcher</h2>
+
+          <!-- Açıklama -->
+          <p class="text-muted text-sm leading-relaxed mb-5">
+            Python ve SQLite ile inşa edilen bu masaüstü uygulama, oyun kütüphanenizi
+            tek bir çatı altında yönetmenizi sağlar. Oyun meta verileri yerel veritabanında
+            tutulur; filtre, arama ve kategori özellikleriyle kolayca erişilir.
+          </p>
+
+          <!-- Özellik listesi -->
+          <ul class="space-y-1 text-sm text-muted mb-5">
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> SQLite yerel veritabanı
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> Oyun başlatma &amp; takip
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-ink font-medium">→</span> Windows 10/11 uyumlu
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <a href="#" class="inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-muted transition-colors">
+            Projeyi İncele
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <!-- ── /KART 2 ── -->
+
+    </div><!-- /grid -->
+  </section>
+
+
+  <!-- ════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════ -->
+  <footer class="border-t border-line py-8 text-center">
+    <p class="text-muted text-xs tracking-widest uppercase">
+      &copy; 2025 · Adınız Soyadınız · Tüm Hakları Saklıdır
+    </p>
+  </footer>
+
+</body>
 </html>
